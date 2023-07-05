@@ -1,19 +1,20 @@
-<template>
-  <div class="left-nav-bar__wrapper">
-    <nav>
-      <RouterLink to="/recomendations">Рекомендованные видео</RouterLink>
-      <RouterLink to="/my-videos">Мои видео</RouterLink>
-      <RouterLink v-if="!authStore.isAuth" to="/login">Авторизоваться</RouterLink>
-      <RouterLink v-else to="/my-profile">Мой профиль</RouterLink>
-    </nav>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { useAuthStore } from '@/stores'
 
 const authStore = useAuthStore()
+console.log('authStore.isAuth', authStore.isAuth)
 </script>
+
+<template>
+  <div class="left-nav-bar__wrapper">
+    <nav>
+      <RouterLink to="/recomendations">Рекомендованные видео</RouterLink>
+      <RouterLink v-if="authStore.isAuth" to="/my-videos">Мои видео</RouterLink>
+      <RouterLink v-if="authStore.isAuth" to="/my-profile">Мой профиль</RouterLink>
+      <RouterLink v-if="!authStore.isAuth" to="/login">Авторизоваться</RouterLink>
+    </nav>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .left-nav-bar {

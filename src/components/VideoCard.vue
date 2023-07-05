@@ -36,6 +36,10 @@ const onClickHandler = () => {
     border-radius: 1vw;
     flex-direction: column;
     margin-bottom: 20px;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
   &__title {
     width: 100%;

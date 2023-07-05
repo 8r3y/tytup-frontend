@@ -2,7 +2,7 @@ export const videos: Array<AppTypes.VideoCard> = [
   {
     id: '1',
     name: 'Video 1',
-    url: 'https://prayers.nsstms.ru/streams/output.m3u8',
+    url: 'https://prayers.nsstms.ru/streams/video1/output.m3u8',
     preview:
       'https://i.ytimg.com/vi/kTmBthJyXXk/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB2rhN2k7c9VXD7xB3_WplB4Oet_A',
     author: 'andy petrosov',

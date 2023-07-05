@@ -9,6 +9,8 @@
   flex: 1;
 
   font-weight: normal;
+
+  min-width: 1024px;
 }
 
 a,

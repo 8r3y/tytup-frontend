@@ -1,14 +1,21 @@
 <script setup lang="ts">
+import router from '@/router'
 import { useAuthStore, useCounterStore } from '@/stores'
 
 const authStore = useAuthStore()
 const counterStore = useCounterStore()
+
+const onTopClickHandler = () => {
+  router.push('/')
+}
 </script>
 
 <template>
   <div class="top-nav-bar__wrapper">
-    <div @click="counterStore.incrementCounter">TopNavBar {{ counterStore.counter }}</div>
-    <div v-if="authStore.isAuth">Пользователь авторизован</div>
+    <div @click="onTopClickHandler">TopNavBar {{ counterStore.counter }}</div>
+    <div v-if="authStore.isAuth">
+      <RouterLink to="/upload-video">Загрузить видео</RouterLink>
+    </div>
     <div v-else><RouterLink to="/login">Авторизоваться</RouterLink></div>
     <slot></slot>
   </div>
