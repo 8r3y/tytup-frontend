@@ -3,16 +3,13 @@
 import LeftNavBar from './LeftNavBar.vue'
 import TopNavBar from './TopNavBar.vue'
 
-import { useCounterStore } from '@/stores'
 
 // const count = ref(0)
 // console.log('hello script setup')
 
 // setInterval(() => {
-//   count.value++
-// }, 1000)
-
-const store = useCounterStore()
+  //   count.value++
+  // }, 1000)
 </script>
 
 <template>
@@ -22,7 +19,7 @@ const store = useCounterStore()
     <div class="main-layout__vertical-wrapper">
       <LeftNavBar />
       <div class="main-layout__content-wrapper">
-        <h1 @click="store.incrementCounter">Main Layout {{ store.counter }}</h1>
+        <slot></slot>
       </div>
     </div>
   </div>
@@ -43,6 +40,7 @@ const store = useCounterStore()
   &__content-wrapper {
     display: flex;
     width: 100%;
+    flex-direction: column;
   }
 }
 </style>

@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores'
+import { useAuthStore, useCounterStore } from '@/stores'
 
 const authStore = useAuthStore()
+const counterStore = useCounterStore()
 </script>
 
 <template>
   <div class="top-nav-bar__wrapper">
+    <div @click="counterStore.incrementCounter">TopNavBar {{ counterStore.counter }}</div>
     <div v-if="authStore.isAuth">Пользователь авторизован</div>
     <div v-else><RouterLink to="/login">Авторизоваться</RouterLink></div>
     <slot></slot>
@@ -19,9 +21,9 @@ const authStore = useAuthStore()
     height: 40px;
     background-color: lightsalmon;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: end;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 }
 </style>
