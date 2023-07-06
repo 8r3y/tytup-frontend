@@ -12,7 +12,9 @@ const onTopClickHandler = () => {
 
 <template>
   <div class="top-nav-bar__wrapper">
-    <div @click="onTopClickHandler">TopNavBar {{ counterStore.counter }}</div>
+    <div @click="onTopClickHandler" class="navbar-navigator">
+      TopNavBar Counter {{ counterStore.counter }}
+    </div>
     <div v-if="authStore.isAuth">
       <RouterLink to="/upload-video">Загрузить видео</RouterLink>
     </div>
@@ -32,5 +34,8 @@ const onTopClickHandler = () => {
     align-items: center;
     justify-content: space-between;
   }
+}
+.navbar-navigator {
+  cursor: pointer;
 }
 </style>

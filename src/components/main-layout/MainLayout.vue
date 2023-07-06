@@ -35,7 +35,7 @@ import TopNavBar from './TopNavBar.vue'
   &__vertical-wrapper {
     display: flex;
     flex-direction: row;
-    height: calc(100vh - 40px);
+    min-height: calc(100vh - 40px);
   }
   &__content-wrapper {
     display: flex;

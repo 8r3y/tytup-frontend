@@ -1,18 +1,23 @@
 <script setup lang="ts">
 import router from '@/router'
 import { routesList } from '@/router/routes-list'
+import { computed } from 'vue'
 
 const props = defineProps<{ video: AppTypes.VideoCard }>()
 
 const onClickHandler = () => {
   router.push(`/video/` + props.video.id)
 }
+
+const isPreviewAvailable = computed(() => {
+  return props.video.preview && props.video.preview.startsWith('https://')
+})
 </script>
 
 <template>
   <div @click="onClickHandler" class="video-card__wrapper">
     <div class="video-card__preview">
-      <img v-if="video.preview" :src="video.preview" />
+      <img v-if="isPreviewAvailable" :src="video.preview" />
       <img v-else src="/images/no-preview-available.png" />
       <div class="video-card__preview__duration__wrapper">
         <div class="video-card__preview__duration__content">{{ video.duration }}</div>

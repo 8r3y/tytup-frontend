@@ -15,14 +15,10 @@
   },
   "dependencies": {
     "axios": "^1.4.0",
-    "filepond": "^4.30.4",
-    "filepond-plugin-file-validate-type": "^1.2.8",
-    "filepond-plugin-image-preview": "^4.6.11",
     "hls.js": "^1.4.8",
     "pinia": "^2.1.4",
     "sass": "^1.63.6",
     "vue": "^3.3.4",
-    "vue-filepond": "^7.0.3",
     "vue-router": "^4.2.2",
     "vuex": "^4.0.2"
   },

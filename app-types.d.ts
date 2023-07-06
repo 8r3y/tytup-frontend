@@ -8,5 +8,6 @@ declare module AppTypes {
     preview?: string;
     views?: string;
     createdAt: number;
+    description: string;
   }
 }

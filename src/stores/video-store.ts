@@ -11,10 +11,13 @@ export const useVideoStore = defineStore('video-store', () => {
     try {
       const result = await axios.get(`${API_BASE_URL}/video-info/${videoId}`).catch()
       if (result && result.status === 200) {
-        return result.data() as AppTypes.VideoCard
+        const data = result.data as { result: AppTypes.VideoCard }
+        console.log('getVideoInfo', data)
+        return data
       }
       return undefined
-    } catch {
+    } catch (e) {
+      console.log('getVideoInfo error', e)
       return undefined
     }
   }
@@ -30,9 +33,31 @@ export const useVideoStore = defineStore('video-store', () => {
     }
   }
 
+  const uploadVideo = async (form: FormData) => {
+    try {
+      const result = await axios
+        .request({
+          method: 'POST',
+          url: `${API_BASE_URL}/upload-video`,
+          data: form
+        })
+        .catch()
+      if (result && result.status === 200) {
+        return result.data
+      } else {
+        return {
+          error: 'Unknown error'
+        }
+      }
+    } catch {
+      return
+    }
+  }
+
   return {
     videosList,
     getVideoInfo,
-    getVideoList
+    getVideoList,
+    uploadVideo
   }
 })
