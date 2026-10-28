@@ -1,75 +1,112 @@
 # inwave-panel
 
-This template should help get you started developing with Vue 3 in Vite.
+Учебный фронтенд мини-видеохостинга на **Vue 3 + Vite + TypeScript**: лента видео, просмотр по HLS и загрузка роликов на сервер.
 
-## Recommended IDE Setup
+Проект собирался как песочница для изучения современного стека Vue и для этого он и полезен: это небольшой, но законченный сценарий «список → просмотр → загрузка», который удобно читать целиком за вечер.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Чем может быть полезен
 
-## Type Support for `.vue` Imports in TS
+- **HLS-плеер во Vue без сторонних обёрток.** В [SeeVideoView.vue](src/views/public/main-stack/SeeVideoView.vue) показано, как подключить [hls.js](https://github.com/video-dev/hls.js) к обычному `<video>`, ограничить буфер (`maxBufferLength`, `backBufferLength`) и откатиться на нативный HLS в Safari.
+- **Загрузка файла через `FormData`.** [UploadVideoFormView.vue](src/views/public/main-stack/UploadVideoFormView.vue) показывает форму с выбором файла, проверкой размера на клиенте (до 50 МБ) и отправкой `multipart/form-data` через axios.
+- **Pinia в стиле setup-stores.** Хранилища в [src/stores](src/stores) написаны через `defineStore(id, () => {...})` с `ref`/`computed`, с общим реэкспортом из `index.ts`.
+- **Composition API и Options API в одном проекте.** В проекте есть и `<script setup>`, и классические компоненты с `data`/`mounted`, так что видно, как они уживаются.
+- **Готовая инфраструктура из `create-vue`.** Уже настроены Vitest, Nightwatch (e2e и компонентные тесты), ESLint и Prettier.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+## Возможности
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+| Экран | Маршрут | Что делает |
+| --- | --- | --- |
+| Все видео | `/` | Сетка карточек с превью, длительностью, автором и просмотрами |
+| Рекомендованные | `/recomendations` | Та же лента (заготовка под отдельную выдачу) |
+| Просмотр | `/video/:videoId` | HLS-плеер и описание ролика |
+| Загрузка | `/upload-video` | Форма: название, описание, файл ≤ 50 МБ |
+| 404 | `*` | Страница «Ничего тут нет» |
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+Интерфейс на русском языке.
 
-## Customize configuration
+## Ограничения
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Это песочница, а не готовый продукт:
 
-## Project Setup
+- **Бэкенда в репозитории нет.** Нужен сервер, реализующий [API ниже](#api-бэкенда).
+- **Авторизация — заглушка.** `auth-store` через 2 секунды выставляет фейковый токен, экран `/login` пустой, а ссылки «Мои видео» и «Мой профиль» никуда не ведут.
+- **Вёрстка рассчитана на десктоп** (плеер фиксированной ширины 1280px).
+- **Тесты остались из шаблона** `create-vue` и не проверяют логику приложения.
+
+## Быстрый старт
+
+Требуется Node.js 18+.
 
 ```sh
 npm install
+cp .env.example .env.local   # укажите адрес своего бэкенда
+npm run dev                  # http://localhost:5173
 ```
 
-### Compile and Hot-Reload for Development
+### Переменные окружения
 
-```sh
-npm run dev
+| Переменная | Описание |
+| --- | --- |
+| `VITE_API_BASE_URL` | Базовый URL бэкенда без завершающего слэша, например `https://api.example.com`. Если не задан, запросы идут на тот же домен, где открыт фронтенд. |
+
+## API бэкенда
+
+Фронтенд ожидает три эндпоинта:
+
+| Метод | Путь | Запрос | Ответ |
+| --- | --- | --- | --- |
+| `GET` | `/video-list` | — | `{ "result": { "items": VideoCard[] } }` |
+| `GET` | `/video-info/:videoId` | — | `{ "result": VideoCard }` |
+| `POST` | `/upload-video` | `multipart/form-data`: `video` (файл), `name`, `description` | `{ "result": string }` или `{ "error": string }` |
+
+Формат `VideoCard` (см. [app-types.d.ts](app-types.d.ts)):
+
+```ts
+type VideoCard = {
+  id: string
+  name: string
+  url: string          // ссылка на HLS-манифест (.m3u8)
+  duration: string     // строка для отображения, например "12:34"
+  author: string
+  preview?: string     // URL превью; показывается только если начинается с https://
+  views?: string
+  createdAt: number
+  description: string
+}
 ```
 
-### Type-Check, Compile and Minify for Production
+Если фронтенд и бэкенд на разных доменах, на сервере нужно разрешить CORS.
 
-```sh
-npm run build
+## Скрипты
+
+| Команда | Что делает |
+| --- | --- |
+| `npm run dev` | Dev-сервер с hot reload (слушает `0.0.0.0:5173`) |
+| `npm run build` | Проверка типов и production-сборка в `dist/` |
+| `npm run preview` | Локальный просмотр production-сборки |
+| `npm run test:unit` | Юнит-тесты (Vitest) |
+| `npm run test:e2e` | E2E-тесты (Nightwatch); на CI сначала выполните `npm run build` |
+| `npm run lint` | ESLint с автоисправлением |
+| `npm run format` | Prettier для `src/` |
+
+## Структура
+
+```
+src/
+├── components/
+│   ├── main-layout/     # каркас: верхняя и левая навигация
+│   └── VideoCard.vue    # карточка видео в ленте
+├── constants/           # API_BASE_URL из переменных окружения
+├── router/              # маршруты (vue-router, ленивая загрузка экранов)
+├── stores/              # Pinia: video-store, auth-store, counter-store
+└── views/public/
+    └── main-stack/      # лента, просмотр, загрузка
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+## Стек
 
-```sh
-npm run test:unit
-```
+Vue 3.3 · Vite 4 · TypeScript 5 · Pinia · Vue Router 4 · axios · hls.js · SCSS · Vitest · Nightwatch
 
-### Run End-to-End Tests with [Nightwatch](https://nightwatchjs.org/)
+## Рекомендуемая настройка IDE
 
-```sh
-# When using CI, the project must be built first.
-npm run build
-
-# Runs the end-to-end tests
-npm run test:e2e
-# Runs the tests only on Chrome
-npm run test:e2e -- --env chrome
-# Runs the tests of a specific file
-npm run test:e2e -- tests/e2e/example.ts
-# Runs the tests in debug mode
-npm run test:e2e -- --debug
-```
-    
-### Run Headed Component Tests with [Nightwatch Component Testing](https://nightwatchjs.org/guide/component-testing/introduction.html)
-  
-```sh
-npm run test:unit
-npm run test:unit -- --headless # for headless testing
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+[VS Code](https://code.visualstudio.com/) + расширение [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (бывший Volar). Vetur нужно отключить.
