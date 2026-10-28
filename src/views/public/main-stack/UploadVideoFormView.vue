@@ -15,24 +15,8 @@ const videoStore = useVideoStore()
 
 function onFileChanged($event: Event) {
   const target = $event.target as HTMLInputElement
-  console.log('onFileChanged', target.files, fileName.value, description.value)
   if (target && target.files) {
     file.value = target.files[0]
-  }
-}
-
-async function saveImage() {
-  form.value?.reset()
-  file.value = null
-  if (file.value) {
-    console.log('saveImage', file)
-    try {
-      // save file.value
-    } catch (error) {
-      console.error(error)
-      form.value?.reset()
-      file.value = null
-    }
   }
 }
 
@@ -42,7 +26,6 @@ async function clearForm() {
 }
 
 const onSubmitForm = async () => {
-  console.log('Send form', file.value)
   if (file.value) {
     const { size, name } = file.value
 
@@ -65,7 +48,6 @@ const onSubmitForm = async () => {
       router.replace('/recomendations')
     }
     clearForm()
-    console.log('formData', result)
   }
 }
 

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/public/HomeView.vue'
 import { routesList } from './routes-list'
 
 const router = createRouter({
@@ -44,13 +43,6 @@ const router = createRouter({
       component: () => import('@/views/public/NotFoundView.vue')
     }
   ]
-})
-
-router.beforeEach((to, from, next) => {
-  // ...
-  // explicitly return false to cancel the navigation
-  console.log('router.beforeEach', { to, from, next })
-  next()
 })
 
 export default router

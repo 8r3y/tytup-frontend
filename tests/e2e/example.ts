@@ -1,13 +1,19 @@
-describe('My First Test', function () {
+describe('Main layout', function () {
   before((browser) => {
     browser.init()
   })
 
-  it('visits the app root url', function () {
-    browser.assert
-      .textContains('.green', 'You did it!')
-      .assert.elementHasCount('.wrapper nav a', 2)
-      .strictClick('.wrapper nav a:last-child')
+  it('renders navigation on the root url', function () {
+    browser
+      .waitForElementVisible('.top-nav-bar__wrapper')
+      .assert.textContains('.navbar-navigator', 'inwave')
+      .assert.elementPresent('.left-nav-bar__wrapper a[href="/recomendations"]')
+  })
+
+  it('shows not found page for unknown url', function () {
+    browser
+      .navigateTo('/no-such-page')
+      .assert.textContains('h1', 'Ничего тут нет')
   })
 
   after((browser) => browser.end())

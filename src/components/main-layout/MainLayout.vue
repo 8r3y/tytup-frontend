@@ -1,15 +1,6 @@
 <script setup lang="ts">
-// import { ref } from 'vue'
 import LeftNavBar from './LeftNavBar.vue'
 import TopNavBar from './TopNavBar.vue'
-
-
-// const count = ref(0)
-// console.log('hello script setup')
-
-// setInterval(() => {
-  //   count.value++
-  // }, 1000)
 </script>
 
 <template>

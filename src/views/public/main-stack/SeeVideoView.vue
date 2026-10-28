@@ -8,7 +8,6 @@ export default {
   async mounted() {
     const { videoId } = router.currentRoute.value.params as { videoId: string }
     const videoStore = useVideoStore()
-    console.log('Router', router.currentRoute.value)
 
     let videoInfo = videoStore.videosList.find((x) => x.id === videoId)
 
@@ -24,8 +23,6 @@ export default {
 
     const video = document.getElementById('video') as HTMLVideoElement
     const videoSrc = videoInfo.url
-
-    console.log('localHls', Hls, videoInfo)
 
     if (Hls.isSupported()) {
       const hls = new Hls({
@@ -63,7 +60,7 @@ export default {
 <template>
   <div class="video-view__wrapper">
     <div class="video-view__content">
-      <a @click="onBackHandler">На глагне</a>
+      <a @click="onBackHandler">На главную</a>
       <div>Lets see video</div>
       <video id="video" width="1280" height="720" controls></video>
       <p class="video-view__description__container"><b>Описание: </b>{{ description }}</p>

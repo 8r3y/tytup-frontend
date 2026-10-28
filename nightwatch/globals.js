@@ -1,3 +1,4 @@
+/* eslint-env node */
 const waitOn = require('wait-on')
 const { setup, teardown } = require('@nightwatch/vue')
 

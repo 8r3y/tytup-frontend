@@ -1,21 +1,9 @@
 <script setup lang="ts">
-// import HelloWorld from '@/components/HelloWorld.vue'
-// import TheWelcome from '@/components/TheWelcome.vue'
+import MainLayout from '@/components/main-layout/MainLayout.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-    <h1>Login page</h1>
-  </header>
+  <MainLayout>
+    <h1>Вход пока не реализован</h1>
+  </MainLayout>
 </template>
-
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
-</style>

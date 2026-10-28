@@ -6,7 +6,7 @@ import { computed } from 'vue'
 const props = defineProps<{ video: AppTypes.VideoCard }>()
 
 const onClickHandler = () => {
-  router.push(`/video/` + props.video.id)
+  router.push({ name: routesList.seeVideo.name, params: { videoId: props.video.id } })
 }
 
 const isPreviewAvailable = computed(() => {

@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import router from '@/router'
-import { useAuthStore, useCounterStore } from '@/stores'
+import { useAuthStore } from '@/stores'
 
 const authStore = useAuthStore()
-const counterStore = useCounterStore()
 
 const onTopClickHandler = () => {
   router.push('/')
@@ -13,7 +12,7 @@ const onTopClickHandler = () => {
 <template>
   <div class="top-nav-bar__wrapper">
     <div @click="onTopClickHandler" class="navbar-navigator">
-      TopNavBar Counter {{ counterStore.counter }}
+      inwave
     </div>
     <div v-if="authStore.isAuth">
       <RouterLink to="/upload-video">Загрузить видео</RouterLink>

@@ -2,6 +2,8 @@
   "name": "inwave-panel",
   "version": "0.0.0",
   "private": true,
+  "description": "Учебный фронтенд мини-видеохостинга на Vue 3: лента, HLS-плеер и загрузка видео",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
@@ -19,8 +21,7 @@
     "pinia": "^2.1.4",
     "sass": "^1.63.6",
     "vue": "^3.3.4",
-    "vue-router": "^4.2.2",
-    "vuex": "^4.0.2"
+    "vue-router": "^4.2.2"
   },
   "devDependencies": {
     "@nightwatch/vue": "0.4.5",

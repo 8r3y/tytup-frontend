@@ -4,20 +4,17 @@ import axios from 'axios'
 import { API_BASE_URL } from '@/constants'
 
 export const useVideoStore = defineStore('video-store', () => {
-  console.log('video store start')
   const videosList = ref<AppTypes.VideoCard[]>([])
 
   const getVideoInfo = async (videoId: string) => {
     try {
       const result = await axios.get(`${API_BASE_URL}/video-info/${videoId}`).catch()
       if (result && result.status === 200) {
-        const data = result.data as { result: AppTypes.VideoCard }
-        console.log('getVideoInfo', data)
-        return data
+        return result.data as { result: AppTypes.VideoCard }
       }
       return undefined
     } catch (e) {
-      console.log('getVideoInfo error', e)
+      console.error('getVideoInfo error', e)
       return undefined
     }
   }
